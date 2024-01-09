@@ -1,0 +1,24 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: kubia-manual
+  labels:
+    name: http_server
+spec:
+  containers:
+  - name: kubia-httpserver
+    image: toffguy77/kubia
+    resources:
+      requests:
+        memory: "64Mi"
+        cpu: "250m"
+      limits:
+        memory: "128Mi"
+        cpu: "500m"
+    ports:
+    - containerPort: 8080
+      protocol: TCP
+    livenessProbe:
+      httpGet:
+        path: /liveness
+        port: 8080
