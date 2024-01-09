@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: kubia-manual
+  name: kubia-liveness
   labels:
     name: http_server
 spec:
@@ -22,3 +22,5 @@ spec:
       httpGet:
         path: /liveness
         port: 8080
+      initialDelaySeconds: 3
+      periodSeconds: 3

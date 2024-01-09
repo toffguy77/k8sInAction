@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io"
 	"log"
+	"math/rand"
 	"net/http"
 	"os"
 	"time"
@@ -12,7 +13,6 @@ import (
 
 const (
 	PORT = "8080"
-	cnt  = 0
 )
 
 func getHost(w http.ResponseWriter, r *http.Request) {
@@ -30,10 +30,13 @@ func getTime() string {
 }
 
 func checkLiveness(w http.ResponseWriter, r *http.Request) {
-	if cnt%5 == 0 {
-		w.WriteHeader(http.StatusInternalServerError)
+	if rand.Intn(10)%2 == 0 {
 		log.Printf("liveness check failed...")
+		w.WriteHeader(http.StatusInternalServerError)
+		io.WriteString(w, "Not ok!")
+		return
 	}
+	w.WriteHeader(http.StatusOK)
 	io.WriteString(w, "Ok")
 }
 
