@@ -1,0 +1,1 @@
+[![Go](https://github.com/toffguy77/k8sInAction/actions/workflows/go.yml/badge.svg)](https://github.com/toffguy77/k8sInAction/actions/workflows/go.yml) [![Codacy Security Scan](https://github.com/toffguy77/k8sInAction/actions/workflows/codacy.yml/badge.svg)](https://github.com/toffguy77/k8sInAction/actions/workflows/codacy.yml)
