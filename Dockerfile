@@ -8,8 +8,6 @@ WORKDIR /tmp/http_server
 # We want to populate the module cache based on the go.{mod,sum} files.
 COPY go.* .
 
-RUN go mod download
-
 COPY . .
 
 # Build the Go app
