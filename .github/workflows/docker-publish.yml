@@ -110,3 +110,11 @@ jobs:
           repository: ${{ github.actor }}/argocd-k8sinaction-config
           event-type: new-image
           client-payload: '{"image": "${{ env.IMAGE_NAME }}:${{ env.GITHUB_SHA }}"}'
+
+      - name: Test
+        run: |
+          echo $RELEASE_VERSION
+          echo $GITHUB_SHA
+          echo $GITHUB_REF
+          echo $GITHUB_REF_NAME
+          echo $IMAGE_NAME
