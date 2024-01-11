@@ -16,17 +16,21 @@ const (
 )
 
 func getHost(w http.ResponseWriter, r *http.Request) {
-	log.Printf("request from %s", r.RemoteAddr)
-	hn, err := os.Hostname()
+	remoteAddr := r.RemoteAddr
+	log.Printf("request from %s", remoteAddr)
+
+	hostname, err := os.Hostname()
 	if err != nil {
-		io.WriteString(w, "Error getting hostname: "+err.Error()+"\n")
+		fmt.Fprintf(w, "Error getting hostname: %s\n", err.Error())
+		return
 	}
-	io.WriteString(w, "["+getTime()+"] "+"You've hit: "+hn+"\n")
+
+	response := fmt.Sprintf("[%s] You've hit: %s\n", getTime(), hostname)
+	fmt.Fprint(w, response)
 }
 
 func getTime() string {
-	t := time.Now()
-	return fmt.Sprint(t.Format("2006-01-02 15:04:05"))
+	return time.Now().Format("2006-01-02 15:04:05")
 }
 
 func checkLiveness(w http.ResponseWriter, r *http.Request) {
@@ -44,12 +48,16 @@ func main() {
 	http.HandleFunc("/", getHost)
 	http.HandleFunc("/liveness", checkLiveness)
 
-	fmt.Printf("start lintening on port http://127.0.0.1:%s\n", PORT)
+	port := "8080"
+	log.Printf("start listening on port http://127.0.0.1:%s\n", port)
+
 	err := http.ListenAndServe(":"+PORT, nil)
 
-	if errors.Is(err, http.ErrServerClosed) {
-		fmt.Printf("server closed\n")
-	} else if err != nil {
-		panic(err)
+	if err != nil {
+		if errors.Is(err, http.ErrServerClosed) {
+			log.Printf("server closed\n")
+		} else {
+			log.Fatal(err)
+		}
 	}
 }
