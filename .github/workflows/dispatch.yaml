@@ -6,7 +6,7 @@ on:
     types:
       - completed
 env:
-  IMAGE_NAME: ${{ github.repository }}:main
+  IMAGE_NAME: k8sinaction:main
   
 jobs:
   build:
