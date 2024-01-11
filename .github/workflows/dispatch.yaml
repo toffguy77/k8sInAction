@@ -20,6 +20,6 @@ jobs:
       uses: peter-evans/repository-dispatch@v2
       with:
         token: ${{ secrets.PAT }}
-        repository: ${{ github.actor }}/argocd-k8sInAction-config
+        repository: ${{ github.actor }}/argocd-k8sinaction-config
         event-type: new-image
         client-payload: '{"image": "${{ env.IMAGE_NAME }}"}'
