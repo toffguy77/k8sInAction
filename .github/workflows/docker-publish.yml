@@ -118,3 +118,4 @@ jobs:
           echo $GITHUB_REF
           echo $GITHUB_REF_NAME
           echo $IMAGE_NAME
+          echo $TAGS
