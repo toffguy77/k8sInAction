@@ -109,4 +109,4 @@ jobs:
           token: ${{ secrets.PAT }}
           repository: ${{ github.actor }}/argocd-k8sinaction-config
           event-type: new-image
-          client-payload: '{"image": "${{ env.IMAGE_NAME }}:$GITHUB_SHA"}'
+          client-payload: '{"image": "${{ env.IMAGE_NAME }}:${{ GITHUB_SHA }}"}'
