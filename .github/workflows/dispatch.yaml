@@ -6,7 +6,7 @@ on:
     types:
       - completed
 env:
-  IMAGE_NAME: toffguy77/k8sinaction:main
+  IMAGE_NAME: ghcr.io/toffguy77/k8sinaction:main
   
 jobs:
   build:
