@@ -19,7 +19,7 @@ env:
   # Use docker.io for Docker Hub if empty
   REGISTRY: ghcr.io
   # github.repository as <account>/<repo>
-  IMAGE_NAME: ${{ github.repository }}
+  IMAGE_NAME: ghcr.io/toffguy77/k8sinaction
 
 
 jobs:
@@ -113,7 +113,6 @@ jobs:
 
       - name: Test
         run: |
-          echo $RELEASE_VERSION
           echo $GITHUB_SHA
           echo $GITHUB_REF
           echo $GITHUB_REF_NAME
