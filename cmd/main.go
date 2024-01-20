@@ -4,7 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"io"
-	"log"
+	"log/slog"
 	"math/rand"
 	"net/http"
 	"os"
@@ -17,15 +17,17 @@ const (
 
 func getHost(w http.ResponseWriter, r *http.Request) {
 	remoteAddr := r.RemoteAddr
-	log.Printf("request from %s", remoteAddr)
+	slog.Info("requst got from host:", slog.String("remoteAddr", remoteAddr))
 
 	hostname, err := os.Hostname()
 	if err != nil {
-		fmt.Fprintf(w, "Error getting hostname: %s\n", err.Error())
+		slog.Error("get hostname failed", slog.String("remoteAddr", remoteAddr), slog.String("error", err.Error()))
+		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
 
 	response := fmt.Sprintf("[%s] You've hit: %s\n", getTime(), hostname)
+	slog.Info("response", slog.String("response", response))
 	fmt.Fprint(w, response)
 }
 
@@ -35,11 +37,12 @@ func getTime() string {
 
 func checkLiveness(w http.ResponseWriter, r *http.Request) {
 	if rand.Intn(10)%2 == 0 {
-		log.Printf("liveness check failed...")
+		slog.Error("liveness check failed", slog.String("remoteAddr", r.RemoteAddr))
 		w.WriteHeader(http.StatusInternalServerError)
 		io.WriteString(w, "Not ok!")
 		return
 	}
+	slog.Info("liveness check ok", slog.String("remoteAddr", r.RemoteAddr))
 	w.WriteHeader(http.StatusOK)
 	io.WriteString(w, "Ok")
 }
@@ -49,15 +52,15 @@ func main() {
 	http.HandleFunc("/liveness", checkLiveness)
 
 	port := "8080"
-	log.Printf("start listening on port http://127.0.0.1:%s\n", port)
+	slog.Info("start listening on port http://127.0.0.1:%s", slog.String("port", port))
 
 	err := http.ListenAndServe(":"+PORT, nil)
 
 	if err != nil {
 		if errors.Is(err, http.ErrServerClosed) {
-			log.Printf("server closed\n")
+			slog.Info("server closed", slog.String("port", port))
 		} else {
-			log.Fatal(err)
+			slog.Error("server error", slog.String("port", port), slog.String("error", err.Error()))
 		}
 	}
 }
