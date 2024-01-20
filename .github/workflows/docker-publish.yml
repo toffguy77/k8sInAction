@@ -109,12 +109,4 @@ jobs:
           token: ${{ secrets.PAT }}
           repository: ${{ github.actor }}/argocd-k8sinaction-config
           event-type: new-image
-          client-payload: '{"image": "${{ env.IMAGE_NAME }}:${{ env.GITHUB_SHA }}"}'
-
-      - name: Test
-        run: |
-          echo GITHUB_SHA $GITHUB_SHA
-          echo GITHUB_REF $GITHUB_REF
-          echo GITHUB_REF_NAME $GITHUB_REF_NAME
-          echo IMAGE_NAME $IMAGE_NAME
-          echo TAGS $TAGS
+          client-payload: '{"image": "${{ env.IMAGE_NAME }}:${{ env.DOCKER_METADATA_OUTPUT_VERSION }}"}'
